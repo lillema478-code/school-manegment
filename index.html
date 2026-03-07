@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -19,238 +21,146 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            background: #f0f5ff;
+            color: #1e293b;
         }
 
         /* Main Container */
         .school-container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 50px;
-            padding: 30px;
-            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
         }
 
-        /* Header with Logo */
+        /* Header */
         .header-premium {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 40px;
+            padding: 20px 30px;
             margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
-        /* Logo Container - እዚህ ላይ ሎጎዎን ያስገቡ */
-        .logo-container {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(145deg, #667eea, #764ba2);
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #2563eb, #1e40af);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2.5rem;
-            box-shadow: 0 15px 25px -8px #667eea;
-            overflow: hidden;
+            font-size: 2rem;
+            box-shadow: 0 15px 25px -8px #2563eb80;
         }
 
-        /* ለእውነተኛ ሎጎ ፎቶ - ይህን ይጠቀሙ */
-        .logo-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .school-title h1 {
+        .school-name {
             font-weight: 800;
             font-size: 2rem;
             color: #1e293b;
-            margin-bottom: 5px;
         }
 
-        .school-title p {
-            color: #64748b;
-            margin: 0;
+        .school-name span {
+            color: #2563eb;
         }
 
-        .date-badge {
-            background: #f1f5f9;
-            padding: 12px 25px;
-            border-radius: 60px;
+        .badge-date {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #1e293b;
-            font-weight: 600;
         }
 
-        .date-badge i {
-            color: #667eea;
-        }
-
-        /* Navigation Grid */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
+        /* Navigation */
+        .nav-modern {
+            background: white;
+            border-radius: 60px;
+            padding: 15px 25px;
             margin-bottom: 30px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
         }
 
         .nav-item {
-            background: #f8fafc;
-            border-radius: 30px;
-            padding: 20px;
-            text-align: center;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #64748b;
             transition: all 0.3s;
             cursor: pointer;
-            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .nav-item:hover {
-            border-color: #667eea;
-            transform: translateY(-5px);
-            box-shadow: 0 20px 30px -10px #667eea80;
-        }
-
-        .nav-item i {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .nav-item span {
-            font-weight: 600;
-            color: #1e293b;
+            background: #f1f5f9;
+            color: #2563eb;
         }
 
         .nav-item.active {
-            background: linear-gradient(145deg, #667eea, #764ba2);
-            border: none;
-        }
-
-        .nav-item.active i,
-        .nav-item.active span {
+            background: linear-gradient(145deg, #2563eb, #1e40af);
             color: white;
+            box-shadow: 0 10px 20px -5px #2563eb;
         }
 
-        /* Reports Section */
-        .reports-section {
-            background: linear-gradient(145deg, #667eea, #764ba2);
-            border-radius: 40px;
-            padding: 30px;
-            margin: 30px 0;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+        /* Dashboard Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
-        .reports-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .stat-card {
+            background: white;
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .reports-title i {
-            font-size: 2rem;
-            background: rgba(255, 255, 255, 0.2);
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 40px -15px #2563eb80;
+        }
+
+        .stat-icon {
             width: 60px;
             height: 60px;
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .reports-title h3 {
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .reports-title p {
-            margin: 5px 0 0;
-            opacity: 0.9;
-        }
-
-        .btn-report {
-            background: white;
-            color: #667eea;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .btn-report:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Dashboard Content */
-        .dashboard-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            font-size: 1.8rem;
             margin-bottom: 20px;
         }
 
-        .stat-card {
-            background: #f8fafc;
-            border-radius: 30px;
-            padding: 25px;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 30px -10px #667eea80;
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
+        .stat-icon.blue { background: #dbeafe; color: #2563eb; }
+        .stat-icon.green { background: #dcfce7; color: #16a34a; }
+        .stat-icon.purple { background: #f3e8ff; color: #9333ea; }
+        .stat-icon.orange { background: #fed7aa; color: #ea580c; }
 
         .stat-number {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 800;
             color: #1e293b;
-            margin-bottom: 5px;
+            line-height: 1.2;
         }
 
         .stat-label {
@@ -258,17 +168,35 @@
             font-weight: 500;
         }
 
-        /* Table */
-        .table-container {
-            background: #f8fafc;
-            border-radius: 30px;
-            padding: 25px;
-        }
-
-        .table-title {
+        /* Section Title */
+        .section-title {
+            font-size: 1.8rem;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 20px;
+            margin: 40px 0 25px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .section-title:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 40px;
+            background: linear-gradient(180deg, #2563eb, #1e40af);
+            border-radius: 4px;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
 
         .table-custom {
@@ -278,14 +206,14 @@
 
         .table-custom th {
             text-align: left;
-            padding: 15px 10px;
+            padding: 15px;
             color: #64748b;
             font-weight: 600;
             border-bottom: 2px solid #e2e8f0;
         }
 
         .table-custom td {
-            padding: 12px 10px;
+            padding: 15px;
             border-bottom: 1px solid #e2e8f0;
         }
 
@@ -293,8 +221,91 @@
             border-bottom: none;
         }
 
+        .table-custom tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(145deg, #2563eb, #1e40af);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -8px #2563eb;
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #2563eb;
+            color: #2563eb;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Forms */
+        .form-container {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 10px 20px -10px #2563eb;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            background: white;
+        }
+
+        /* Badges */
         .badge {
-            padding: 5px 15px;
+            padding: 6px 15px;
             border-radius: 50px;
             font-weight: 600;
             font-size: 0.85rem;
@@ -310,297 +321,725 @@
             color: #ea580c;
         }
 
-        /* Notice Board */
-        .notice-board {
-            background: #f8fafc;
+        .badge-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .badge-info {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        /* Charts */
+        .chart-container {
+            background: white;
             border-radius: 30px;
             padding: 25px;
-        }
-
-        .notice-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .notice-item:last-child {
-            border-bottom: none;
-        }
-
-        .notice-icon {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-        }
-
-        .notice-content h6 {
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #1e293b;
-        }
-
-        .notice-content p {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .notice-time {
-            font-size: 0.8rem;
-            color: #94a3b8;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            height: 350px;
         }
 
         /* Footer */
         .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #f0f0f0;
+            background: white;
+            border-radius: 40px;
+            padding: 30px;
+            margin-top: 50px;
             text-align: center;
-            color: #64748b;
+            box-shadow: 0 -10px 30px -10px rgba(0, 0, 0, 0.05);
         }
 
-        /* Modal for Logo Upload */
-        .modal-content {
-            border-radius: 30px;
-            border: none;
+        /* Sections */
+        .section {
+            display: none;
         }
 
-        .modal-header {
-            background: linear-gradient(145deg, #667eea, #764ba2);
-            color: white;
-            border-radius: 30px 30px 0 0;
+        .section.active-section {
+            display: block;
         }
 
         /* Responsive */
         @media (max-width: 992px) {
-            .dashboard-content {
-                grid-template-columns: 1fr;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .header-premium {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
-            
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .header-premium .row {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
     <div class="school-container">
-        <!-- Header with Logo (እንደ ፎቶው) -->
-        <div class="header-premium">
-            <div class="logo-area">
-                <!-- ሎጎ የሚቀመጥበት ቦታ - ቀይ ምልክት ያደረጉት -->
-                <div class="logo-container" id="logoContainer">
-                    <!-- ነባሪ ሎጎ (ይህን በእርስዎ ሎጎ ይቀይሩት) -->
-                    <i class="fas fa-mountain" id="defaultLogo"></i>
-                    <!-- ለእውነተኛ ሎጎ ፎቶ የሚሆን ቦታ (በመጀመሪያ የተደበቀ) -->
-                    <img src="" alt="School Logo" class="logo-image" id="logoImage" style="display: none;">
+        <!-- Header -->
+        <header class="header-premium">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="logo-area">
+                        <div class="logo-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div>
+                            <h1 class="school-name">EVEREST <span>SCHOOL</span></h1>
+                            <p style="color: #64748b;">Management System • 2026</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="school-title">
-                    <h1>EVEREST SCHOOL</h1>
-                    <p>Management System • 2026</p>
+                <div class="col-md-6 text-md-end">
+                    <div class="badge-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span id="currentDate"></span>
+                    </div>
                 </div>
             </div>
-            <div class="date-badge">
-                <i class="far fa-calendar-alt"></i>
-                <span id="currentDate">March 6, 2026</span>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-modern">
+            <div class="nav-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-home"></i> Dashboard
+            </div>
+            <div class="nav-item" onclick="showSection('students')">
+                <i class="fas fa-user-graduate"></i> Students
+            </div>
+            <div class="nav-item" onclick="showSection('teachers')">
+                <i class="fas fa-chalkboard-teacher"></i> Teachers
+            </div>
+            <div class="nav-item" onclick="showSection('classes')">
+                <i class="fas fa-door-open"></i> Classes
+            </div>
+            <div class="nav-item" onclick="showSection('fees')">
+                <i class="fas fa-coins"></i> Fees
+            </div>
+            <div class="nav-item" onclick="showSection('attendance')">
+                <i class="fas fa-check-circle"></i> Attendance
+            </div>
+            <div class="nav-item" onclick="showSection('reports')">
+                <i class="fas fa-chart-bar"></i> Reports
+            </div>
+        </nav>
+
+        <!-- DASHBOARD SECTION -->
+        <div id="dashboard-section" class="section active-section">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-number" id="totalStudents">1,284</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stat-number" id="totalTeachers">48</div>
+                    <div class="stat-label">Teachers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-door-open"></i>
+                    </div>
+                    <div class="stat-number" id="totalClasses">24</div>
+                    <div class="stat-label">Classes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-flag-checkered"></i>
+                    </div>
+                    <div class="stat-number" id="totalAttendance">94%</div>
+                    <div class="stat-label">Attendance Rate</div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h5 class="mb-4">Students per Grade</h5>
+                        <canvas id="studentsChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h5 class="mb-4">Fee Collection Status</h5>
+                        <canvas id="feesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="table-container">
+                        <h5 class="mb-4">Recent Students</h5>
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Class</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentStudents">
+                                <tr>
+                                    <td>Abebe Kebede</td>
+                                    <td>Grade 10A</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Almaz Tadesse</td>
+                                    <td>Grade 11B</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Biruk Ayele</td>
+                                    <td>Grade 12C</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="table-container">
+                        <h5 class="mb-4">Recent Payments</h5>
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentPayments">
+                                <tr>
+                                    <td>Abebe Kebede</td>
+                                    <td>$500</td>
+                                    <td><span class="badge badge-success">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Almaz Tadesse</td>
+                                    <td>$500</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Biruk Ayele</td>
+                                    <td>$500</td>
+                                    <td><span class="badge badge-success">Paid</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Logo Upload Button (አዲስ ሎጎ ለመጫን) -->
-        <div class="text-end mb-3">
-            <button class="btn btn-sm btn-outline-primary" onclick="document.getElementById('logoInput').click();">
-                <i class="fas fa-upload me-2"></i>Change Logo
-            </button>
-            <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="uploadLogo(event)">
-        </div>
-
-        <!-- Navigation Grid (እንደ ፎቶው) -->
-        <div class="nav-grid">
-            <div class="nav-item active">
-                <i class="fas fa-chart-pie"></i>
-                <span>Dashboard</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-user-graduate"></i>
-                <span>Students</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>Teachers</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-door-open"></i>
-                <span>Classes</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-coins"></i>
-                <span>Fees</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Attendance</span>
-            </div>
-        </div>
-
-        <!-- Reports Section (እንደ ፎቶው) -->
-        <div class="reports-section">
-            <div class="reports-title">
-                <i class="fas fa-lock"></i>
-                <div>
-                    <h3>Reports</h3>
-                    <p>Generate Report</p>
-                </div>
-            </div>
-            <button class="btn-report">
-                <i class="fas fa-file-pdf"></i>
-                Generate Report
-            </button>
-        </div>
-
-        <!-- Dashboard Content -->
-        <div class="dashboard-content">
-            <div>
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                        <div class="stat-number">1,284</div>
-                        <div class="stat-label">Total Students</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <div class="stat-number">48</div>
-                        <div class="stat-label">Teachers</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-door-open"></i>
-                        </div>
-                        <div class="stat-number">24</div>
-                        <div class="stat-label">Classes</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-flag-checkered"></i>
-                        </div>
-                        <div class="stat-number">94%</div>
-                        <div class="stat-label">Attendance</div>
+        <!-- STUDENTS SECTION -->
+        <div id="students-section" class="section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-container">
+                        <h5 class="mb-4"><i class="fas fa-user-plus me-2" style="color: #2563eb;"></i> Add New Student</h5>
+                        <form id="studentForm">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="studentName" placeholder="Enter full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Class</label>
+                                <select class="form-select" id="studentClass" required>
+                                    <option value="">Select Class</option>
+                                    <option value="Grade 9A">Grade 9A</option>
+                                    <option value="Grade 9B">Grade 9B</option>
+                                    <option value="Grade 10A">Grade 10A</option>
+                                    <option value="Grade 10B">Grade 10B</option>
+                                    <option value="Grade 11A">Grade 11A</option>
+                                    <option value="Grade 11B">Grade 11B</option>
+                                    <option value="Grade 12A">Grade 12A</option>
+                                    <option value="Grade 12B">Grade 12B</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="studentDob" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Parent Phone</label>
+                                <input type="tel" class="form-control" id="parentPhone" placeholder="+251 912 345 678" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-control" id="studentAddress" placeholder="Enter address">
+                            </div>
+                            <button type="submit" class="btn-primary w-100">
+                                <i class="fas fa-save me-2"></i> Add Student
+                            </button>
+                        </form>
                     </div>
                 </div>
+                <div class="col-md-8">
+                    <div class="table-container">
+                        <h5 class="mb-4"><i class="fas fa-list me-2" style="color: #2563eb;"></i> Students List</h5>
+                        <div class="table-responsive">
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Class</th>
+                                        <th>Parent Phone</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentsList">
+                                    <tr>
+                                        <td>#1001</td>
+                                        <td>Abebe Kebede</td>
+                                        <td>Grade 10A</td>
+                                        <td>+251 911 223 344</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1002</td>
+                                        <td>Almaz Tadesse</td>
+                                        <td>Grade 11B</td>
+                                        <td>+251 922 334 455</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1003</td>
+                                        <td>Biruk Ayele</td>
+                                        <td>Grade 12C</td>
+                                        <td>+251 933 445 566</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <!-- Recent Students Table -->
-                <div class="table-container">
-                    <h5 class="table-title">Recent Students</h5>
-                    <table class="table-custom">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Class</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Abebe Kebede</td>
-                                <td>Grade 10A</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Almaz Tadesse</td>
-                                <td>Grade 11B</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Biruk Ayele</td>
-                                <td>Grade 12C</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <!-- TEACHERS SECTION -->
+        <div id="teachers-section" class="section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-container">
+                        <h5 class="mb-4"><i class="fas fa-user-plus me-2" style="color: #2563eb;"></i> Add New Teacher</h5>
+                        <form id="teacherForm">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="teacherName" placeholder="Enter full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="teacherSubject" placeholder="e.g., Mathematics" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Qualification</label>
+                                <input type="text" class="form-control" id="teacherQual" placeholder="e.g., MSc, BEd" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="teacherPhone" placeholder="+251 912 345 678" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="teacherEmail" placeholder="teacher@everest.edu.et" required>
+                            </div>
+                            <button type="submit" class="btn-primary w-100">
+                                <i class="fas fa-save me-2"></i> Add Teacher
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="table-container">
+                        <h5 class="mb-4"><i class="fas fa-chalkboard-teacher me-2" style="color: #2563eb;"></i> Teachers List</h5>
+                        <div class="table-responsive">
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Subject</th>
+                                        <th>Qualification</th>
+                                        <th>Phone</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="teachersList">
+                                    <tr>
+                                        <td>#T101</td>
+                                        <td>Dr. Tesfaye Alemu</td>
+                                        <td>Mathematics</td>
+                                        <td>PhD</td>
+                                        <td>+251 911 111 222</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#T102</td>
+                                        <td>Mrs. Hiwot Desta</td>
+                                        <td>English</td>
+                                        <td>MA</td>
+                                        <td>+251 922 222 333</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#T103</td>
+                                        <td>Mr. Bekele Wondimu</td>
+                                        <td>Physics</td>
+                                        <td>MSc</td>
+                                        <td>+251 933 333 444</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLASSES SECTION -->
+        <div id="classes-section" class="section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-container">
+                        <h5 class="mb-4"><i class="fas fa-plus-circle me-2" style="color: #2563eb;"></i> Add New Class</h5>
+                        <form id="classForm">
+                            <div class="form-group">
+                                <label class="form-label">Class Name</label>
+                                <input type="text" class="form-control" id="className" placeholder="e.g., Grade 10A" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Class Teacher</label>
+                                <select class="form-select" id="classTeacher" required>
+                                    <option value="">Select Teacher</option>
+                                    <option value="Dr. Tesfaye Alemu">Dr. Tesfaye Alemu</option>
+                                    <option value="Mrs. Hiwot Desta">Mrs. Hiwot Desta</option>
+                                    <option value="Mr. Bekele Wondimu">Mr. Bekele Wondimu</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Room Number</label>
+                                <input type="text" class="form-control" id="classRoom" placeholder="e.g., 201" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Capacity</label>
+                                <input type="number" class="form-control" id="classCapacity" placeholder="e.g., 40" required>
+                            </div>
+                            <button type="submit" class="btn-primary w-100">
+                                <i class="fas fa-save me-2"></i> Add Class
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="table-container">
+                        <h5 class="mb-4"><i class="fas fa-door-open me-2" style="color: #2563eb;"></i> Classes List</h5>
+                        <div class="table-responsive">
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>Class</th>
+                                        <th>Class Teacher</th>
+                                        <th>Room</th>
+                                        <th>Capacity</th>
+                                        <th>Students</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="classesList">
+                                    <tr>
+                                        <td>Grade 10A</td>
+                                        <td>Dr. Tesfaye Alemu</td>
+                                        <td>201</td>
+                                        <td>40</td>
+                                        <td>38</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grade 11B</td>
+                                        <td>Mrs. Hiwot Desta</td>
+                                        <td>305</td>
+                                        <td>35</td>
+                                        <td>32</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grade 12C</td>
+                                        <td>Mr. Bekele Wondimu</td>
+                                        <td>412</td>
+                                        <td>30</td>
+                                        <td>28</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEES SECTION -->
+        <div id="fees-section" class="section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-container">
+                        <h5 class="mb-4"><i class="fas fa-plus-circle me-2" style="color: #2563eb;"></i> Record Fee Payment</h5>
+                        <form id="feeForm">
+                            <div class="form-group">
+                                <label class="form-label">Select Student</label>
+                                <select class="form-select" id="feeStudent" required>
+                                    <option value="">Choose Student</option>
+                                    <option value="Abebe Kebede">Abebe Kebede - Grade 10A</option>
+                                    <option value="Almaz Tadesse">Almaz Tadesse - Grade 11B</option>
+                                    <option value="Biruk Ayele">Biruk Ayele - Grade 12C</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Amount ($)</label>
+                                <input type="number" class="form-control" id="feeAmount" placeholder="e.g., 500" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Payment Type</label>
+                                <select class="form-select" id="feeType" required>
+                                    <option value="Tuition">Tuition Fee</option>
+                                    <option value="Registration">Registration</option>
+                                    <option value="Library">Library Fee</option>
+                                    <option value="Sports">Sports Fee</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Payment Date</label>
+                                <input type="date" class="form-control" id="feeDate" required>
+                            </div>
+                            <button type="submit" class="btn-primary w-100">
+                                <i class="fas fa-save me-2"></i> Record Payment
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="table-container">
+                        <h5 class="mb-4"><i class="fas fa-coins me-2" style="color: #2563eb;"></i> Fee Collection Status</h5>
+                        <div class="table-responsive">
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Class</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="feesList">
+                                    <tr>
+                                        <td>Abebe Kebede</td>
+                                        <td>Grade 10A</td>
+                                        <td>$500</td>
+                                        <td>Tuition</td>
+                                        <td>2026-03-01</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Almaz Tadesse</td>
+                                        <td>Grade 11B</td>
+                                        <td>$500</td>
+                                        <td>Tuition</td>
+                                        <td>2026-02-28</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Biruk Ayele</td>
+                                        <td>Grade 12C</td>
+                                        <td>$250</td>
+                                        <td>Registration</td>
+                                        <td>2026-03-05</td>
+                                        <td><span class="badge badge-warning">Partial</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chaltu Mohammed</td>
+                                        <td>Grade 9A</td>
+                                        <td>$500</td>
+                                        <td>Tuition</td>
+                                        <td>2026-03-02</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ATTENDANCE SECTION -->
+        <div id="attendance-section" class="section">
+            <div class="form-container">
+                <h5 class="mb-4"><i class="fas fa-check-circle me-2" style="color: #2563eb;"></i> Mark Attendance</h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Select Class</label>
+                            <select class="form-select" id="attendanceClass">
+                                <option>Grade 10A</option>
+                                <option>Grade 11B</option>
+                                <option>Grade 12C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" id="attendanceDate" value="2026-03-06">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Notice Board -->
-            <div>
-                <div class="notice-board">
-                    <h5 class="table-title">Notice Board</h5>
-                    
-                    <div class="notice-item">
-                        <div class="notice-icon">
-                            <i class="fas fa-calendar-check"></i>
+            <div class="table-container mt-4">
+                <h5 class="mb-4">Attendance Sheet - Grade 10A</h5>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Student Name</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                            <th>Late</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Abebe Kebede</td>
+                            <td><input type="radio" name="att1" checked></td>
+                            <td><input type="radio" name="att1"></td>
+                            <td><input type="radio" name="att1"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Biruk Ayele</td>
+                            <td><input type="radio" name="att2"></td>
+                            <td><input type="radio" name="att2"></td>
+                            <td><input type="radio" name="att2" checked></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Chaltu Mohammed</td>
+                            <td><input type="radio" name="att3" checked></td>
+                            <td><input type="radio" name="att3"></td>
+                            <td><input type="radio" name="att3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn-primary mt-3">Save Attendance</button>
+            </div>
+        </div>
+
+        <!-- REPORTS SECTION -->
+        <div id="reports-section" class="section">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-container">
+                        <h5 class="mb-4"><i class="fas fa-file-pdf me-2" style="color: #2563eb;"></i> Generate Report</h5>
+                        <div class="form-group">
+                            <label class="form-label">Report Type</label>
+                            <select class="form-select">
+                                <option>Student Report</option>
+                                <option>Teacher Report</option>
+                                <option>Financial Report</option>
+                                <option>Attendance Report</option>
+                            </select>
                         </div>
-                        <div class="notice-content">
-                            <h6>Staff Meeting</h6>
-                            <p>All teachers meet in conference room</p>
-                            <span class="notice-time">Today, 2:00 PM</span>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">From Date</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">To Date</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                            </div>
                         </div>
+                        <button class="btn-primary w-100">Generate Report</button>
                     </div>
-                    
-                    <div class="notice-item">
-                        <div class="notice-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="notice-content">
-                            <h6>Report Cards</h6>
-                            <p>Second term report cards ready</p>
-                            <span class="notice-time">Tomorrow, 9:00 AM</span>
-                        </div>
-                    </div>
-                    
-                    <div class="notice-item">
-                        <div class="notice-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="notice-content">
-                            <h6>Sports Day</h6>
-                            <p>Annual sports competition</p>
-                            <span class="notice-time">March 15, 2026</span>
-                        </div>
-                    </div>
-                    
-                    <div class="notice-item">
-                        <div class="notice-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="notice-content">
-                            <h6>Parent-Teacher Meeting</h6>
-                            <p>Schedule for next week</p>
-                            <span class="notice-time">March 20, 2026</span>
-                        </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h5 class="mb-4">Monthly Fee Collection</h5>
+                        <canvas id="monthlyFeesChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="footer">
+        <footer class="footer">
             <p>© 2026 Everest School Management System | Group Assignment - Computer Science</p>
             <p class="mt-2 text-muted">Developed by: Abebe, Almaz, Biruk, Chaltu, Dawit • Grade 12</p>
-        </div>
+        </footer>
     </div>
 
-    <!-- Logo Upload JavaScript -->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // Current date
+        // Show current date
         function updateDate() {
             const now = new Date();
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -608,48 +1047,106 @@
         }
         updateDate();
 
-        // Logo upload function (አዲስ ሎጎ ለመጫን)
-        function uploadLogo(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const logoImage = document.getElementById('logoImage');
-                    const defaultLogo = document.getElementById('defaultLogo');
-                    const logoContainer = document.getElementById('logoContainer');
-                    
-                    // Hide default icon, show uploaded image
-                    defaultLogo.style.display = 'none';
-                    logoImage.style.display = 'block';
-                    logoImage.src = e.target.result;
-                    
-                    // Optional: Change background color
-                    logoContainer.style.background = 'transparent';
-                    logoContainer.style.boxShadow = 'none';
+        // Navigation function
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active-section');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active-section');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+        }
+
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Students Chart
+            const studentsCtx = document.getElementById('studentsChart').getContext('2d');
+            new Chart(studentsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'],
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: [320, 350, 300, 280],
+                        backgroundColor: ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd'],
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
                 }
-                reader.readAsDataURL(file);
-            }
-        }
+            });
 
-        // ናሙና ሎጎ ማስገቢያ - ከማንኛውም URL መጠቀም ከፈለጉ
-        function setLogoFromURL(url) {
-            const logoImage = document.getElementById('logoImage');
-            const defaultLogo = document.getElementById('defaultLogo');
-            const logoContainer = document.getElementById('logoContainer');
-            
-            defaultLogo.style.display = 'none';
-            logoImage.style.display = 'block';
-            logoImage.src = url;
-            
-            logoContainer.style.background = 'transparent';
-            logoContainer.style.boxShadow = 'none';
-        }
+            // Fees Chart
+            const feesCtx = document.getElementById('feesChart').getContext('2d');
+            new Chart(feesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Paid (75%)', 'Pending (15%)', 'Partial (10%)'],
+                    datasets: [{
+                        data: [75, 15, 10],
+                        backgroundColor: ['#16a34a', '#ea580c', '#2563eb'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
 
-        // ለሙከራ ናሙና ሎጎ ማስገቢያ (ይህን ኮንሶል ላይ በመጠቀም መሞከር ይችላሉ)
-        // setLogoFromURL('https://example.com/logo.jpg');
+            // Monthly Fees Chart
+            const monthlyCtx = document.getElementById('monthlyFeesChart').getContext('2d');
+            new Chart(monthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Collection ($)',
+                        data: [12500, 14800, 16200, 15800, 17200, 18900],
+                        borderColor: '#2563eb',
+                        backgroundColor: '#2563eb20',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        });
+
+        // Form submissions (prevent default for demo)
+        document.getElementById('studentForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Student added successfully! (Demo)');
+        });
+
+        document.getElementById('teacherForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Teacher added successfully! (Demo)');
+        });
+
+        document.getElementById('feeForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Payment recorded successfully! (Demo)');
+        });
     </script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
